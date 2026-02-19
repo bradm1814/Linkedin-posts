@@ -1,8 +1,9 @@
 import requests
 
-# summarization/summarizer.py
 
-def build_prompt(source_type, title, text, url):
+
+
+def build_prompt(title, text, url):
     system_instructions = """
 You are a summarization agent that turns technical articles into polished, professional LinkedIn posts.
 
@@ -42,3 +43,4 @@ text:
 """
 
     return system_instructions + "\n" + instance_input
+

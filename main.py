@@ -1,26 +1,20 @@
 import random
-from ingestion import arxiv_ingestor
-from ingestion import hackernews
-from ingestion.content_fetcher import fetch_full_article
+from pipeline.article_pipeline import get_random_article
+from summarization.summarizer import build_prompt
+from llm.llm import LocalLLM
 
 
 def run_daily():
 
-    sources = {
-        "arx_quant": arxiv_ingestor.get_arxiv_quant(),
-        "arx_ai": arxiv_ingestor.get_arxiv_ai(),
-        "hackernews": hackernews.get_hackernews_ai()
-    }
+    article = get_random_article()
 
-    random_daily_source = random.choice(list(sources.keys()))
+    prompt = build_prompt(article["title"], article["summary"], article["link"])
 
-    articles = sources[random_daily_source]
+    Agent = LocalLLM()
 
-    random_daily_article = random.choice(articles)
+    summary = Agent.generate(prompt)
 
-    print(random_daily_article)
-
-
+    print(summary)
 
 if __name__ == "__main__":
     run_daily()
