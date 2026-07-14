@@ -1,4 +1,6 @@
 import requests
+import torch
+from diffusers import FluxPipeline
 
 class LocalLLM:
     def __init__(self, model_name="mistral"):
@@ -16,4 +18,12 @@ class LocalLLM:
         response.raise_for_status()
 
         data = response.json()
+        text = data.get("response", "").strip()
+
+
+        with open("linkedin_post.txt", "w", encoding="utf-8") as f:
+            f.write(text)
+
         return data.get("response", "").strip()
+    
+
